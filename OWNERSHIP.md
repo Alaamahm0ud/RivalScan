@@ -1,7 +1,13 @@
-# الملكية الفكرية | Intellectual Property
+# Intellectual Property Declaration
 
-تم تطوير مشروع RivalScan بواسطة علاء محمود محمد، كمبادرة لحل مشاكل أمن البيانات في الشركات الصغيرة والمتوسطة. جميع الأفكار، التصاميم، والرموز ناتجة عن بحث شخصي وتجربة عملية.  
-RivalScan was developed by Alaa Mahmoud Mohamed as an initiative to solve data security challenges for SMEs. All ideas, designs, and code are the result of personal research and practical experience.
+RivalScan was developed by Alaa Mahmoud Mohamed as an original initiative to address enterprise data security and analytics challenges. All concepts, designs, and source code are the result of personal research and professional experience.
 
-يُمنع إعادة استخدام الفكرة أو الكود دون إذن صريح من المطور.  
-Reusing the idea or code without explicit permission from the developer is prohibited.
+This project is protected under intellectual property laws. Reuse, reproduction, or redistribution of any part of this project without explicit written permission is strictly prohibited.
+
+---
+
+# توثيق الملكية الفكرية
+
+تم تطوير مشروع RivalScan بواسطة علاء محمود محمد كمبادرة أصلية لحل تحديات أمن وتحليل بيانات المؤسسات. جميع الأفكار، التصاميم، والكود المصدري ناتجة عن بحث شخصي وخبرة مهنية.
+
+هذا المشروع محمي بموجب قوانين الملكية الفكرية. يُمنع إعادة استخدام أو نسخ أو توزيع أي جزء من المشروع دون إذن كتابي صريح.
