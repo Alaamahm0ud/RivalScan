@@ -1,9 +1,13 @@
----
-📐
-# 🧱 RivalScan Architecture | بنية مشروع RivalScan
 
-RivalScan is a modular, scalable platform for cyber-aware business analytics.  
-RivalScan هو منصة مرنة وقابلة للتوسع لتحليلات الأعمال مع التركيز على الأمن السيبراني.
+
+# ✅ **ARCHITECTURE.md — النسخة النهائية الجاهزة للرفع**
+
+````markdown
+# 🧱 RivalScan Architecture
+RivalScan is a modular, scalable platform for cyber-aware business analytics.
+
+# 🧱 بنية RivalScan
+RivalScan هو نظام مرن وقابل للتوسع لتحليلات الأعمال المعززة بالوعي الأمني.
 
 ---
 
@@ -13,175 +17,184 @@ RivalScan هو منصة مرنة وقابلة للتوسع لتحليلات ال
 graph TD
   UI[React + Tailwind UI] --> API[FastAPI Backend]
   API --> DB[(PostgreSQL + pgvector)]
-  API --> AI[Recommendation Engine]
+  API --> AI[AI Recommendation Engine]
   API --> Storage[S3-compatible Storage]
-  API --> Auth[JWT Auth + Role-based Access]
-
-
----
-
-🧠 Core Components | المكونات الأساسية
-
-1. Frontend (React) | الواجهة الأمامية (React)
-
-Built with Vite + TailwindCSS. | مبنية باستخدام Vite و TailwindCSS
-
-Handles file uploads, dashboard rendering, and report previews. | تدير رفع الملفات، عرض لوحة التحكم، ومعاينة التقارير
-
-Communicates with backend via RESTful APIs. | تتواصل مع الواجهة الخلفية عبر RESTful APIs
-
-
-
-2. Backend (FastAPI) | الواجهة الخلفية (FastAPI)
-
-Serves APIs for data ingestion, analysis, and report generation. | توفر واجهات برمجة التطبيقات لجمع البيانات، التحليل، وإنشاء التقارير
-
-Integrates AI engine and rule-based logic. | تدمج محرك الذكاء الاصطناعي والمنطق القائم على القواعد
-
-Handles authentication and authorization. | تدير المصادقة والتحكم بالوصول
-
-
-
-3. Database (PostgreSQL + pgvector) | قاعدة البيانات (PostgreSQL + pgvector)
-
-Stores user data, uploaded files metadata, and analysis results. | تخزن بيانات المستخدم، ميتاداتا الملفات المرفوعة، ونتائج التحليل
-
-pgvector enables semantic search and embedding storage. | توفر pgvector البحث الدلالي وتخزين embeddings
-
-
-
-4. AI Engine | محرك الذكاء الاصطناعي
-
-Combines: | يجمع بين:
-
-Rule-based logic (thresholds, heuristics) | منطق قائم على القواعد (حدود، استدلالات)
-
-ML/LLM-based models (optional) | نماذج تعلم الآلة / النماذج اللغوية الكبيرة (اختياري)
-
-
-Generates actionable recommendations. | يولد توصيات قابلة للتنفيذ
-
-
-
-5. Storage (S3-compatible) | التخزين (متوافق مع S3)
-
-Stores uploaded CSV/Excel files and generated PDF reports. | يخزن ملفات CSV/Excel المرفوعة والتقارير PDF الناتجة
-
-
-
-
+  API --> Auth[JWT Auth + RBAC]
+````
 
 ---
 
-🔐 Security | الأمان
+## 🧠 Core Components | المكونات الأساسية
 
-JWT-based authentication | مصادقة مبنية على JWT
+### 1. Frontend (React)
 
-Role-based access control (Admin, Analyst, Viewer) | تحكم بالوصول حسب الدور (مسؤول، محلل، مشاهد)
+* Built with Vite + TailwindCSS.
+* Handles file uploads, dashboards, previews.
+* Communicates with backend via REST APIs.
 
-Input validation and file sanitization | التحقق من صحة البيانات وتنظيف الملفات
+### 1. الواجهة الأمامية (React)
 
-
-
----
-
-⚙️ DevOps
-
-Dockerized services | خدمات معزولة بواسطة Docker
-
-GitHub Actions for CI/CD | GitHub Actions لتكامل ونشر مستمر
-
-Kubernetes-ready deployment (optional) | نشر جاهز على Kubernetes (اختياري)
-
+* مبنية باستخدام Vite و TailwindCSS.
+* تدير رفع الملفات ولوحة التحكم والمعاينات.
+* تتواصل مع الواجهة الخلفية عبر REST APIs.
 
 ---
 
-🛠️ **INSTALL.md**
+### 2. Backend (FastAPI)
+
+* Provides APIs for ingesting, analyzing, reporting.
+* Integrates AI engine + rules engine.
+* Handles JWT authentication & authorization.
+
+### 2. الواجهة الخلفية (FastAPI)
+
+* توفر واجهات برمجة لجمع البيانات والتحليل وإنشاء التقارير.
+* تدمج محرك الذكاء الاصطناعي والمنطق القائم على القواعد.
+* تدير المصادقة والتحكم بالوصول عبر JWT.
+
+---
+
+### 3. Database (PostgreSQL + pgvector)
+
+* Stores users, metadata, analysis results.
+* pgvector enables embeddings + semantic search.
+
+### 3. قاعدة البيانات
+
+* تخزن المستخدمين وملفات الميتاداتا ونتائج التحليل.
+* pgvector توفر تخزين embeddings وبحث دلالي.
+
+---
+
+### 4. AI Engine | محرك الذكاء الاصطناعي
+
+* Rules (heuristics + thresholds)
+* ML/LLM models (optional)
+* Generates actionable recommendations
+
+### محرك الذكاء الاصطناعي
+
+* قواعد واستدلالات
+* نماذج تعلم آلي أو LLM (اختياري)
+* يولد توصيات تنفيذية قابلة للتطبيق
+
+---
+
+### 5. Storage (S3-compatible)
+
+Stores uploaded CSV/Excel files & generated PDFs.
+
+### التخزين (متوافق S3)
+
+يخزن ملفات CSV/Excel والتقارير PDF.
+
+---
+
+## 🔐 Security | الأمان
+
+* JWT-based authentication
+
+* Role-based access control (Admin / Analyst / Viewer)
+
+* File sanitization + input validation
+
+* مصادقة JWT
+
+* أدوار RBAC
+
+* تنظيف الملفات والتحقق من المدخلات
+
+---
+
+## ⚙️ DevOps
+
+* Dockerized services
+
+* GitHub Actions CI/CD
+
+* Kubernetes-ready
+
+* خدمات Docker
+
+* خطوط CI/CD
+
+* جاهز لـ Kubernetes
+
+````
+
+---
+
+# ✅ **INSTALL.md — النسخة النهائية الجاهزة للرفع**
 
 ```markdown
-# ⚙️ Installation Guide – RivalScan | دليل تثبيت RivalScan
+# ⚙️ Installation Guide — RivalScan
+This guide explains how to run RivalScan locally using Docker or manual setup.
 
-This guide helps you run RivalScan locally using Docker or manually.  
+# ⚙️ دليل التثبيت — RivalScan
 هذا الدليل يوضح كيفية تشغيل RivalScan محليًا باستخدام Docker أو الإعداد اليدوي.
 
 ---
 
-## 🐳 Option 1: Run with Docker (Recommended) | الخيار 1: التشغيل عبر Docker (موصى به)
+## 🐳 Option 1: Run with Docker (Recommended)
+Prerequisites:
+- Docker
+- Docker Compose
 
-Prerequisites | المتطلبات
-- Docker & Docker Compose installed | تثبيت Docker و Docker Compose
-
-Steps | الخطوات
+### Steps:
 ```bash
 git clone https://github.com/Alaamahm0ud/RivalScan.git
 cd RivalScan
 cp .env.example .env
 docker-compose up --build
+````
 
-Frontend: http://localhost:3000 | الواجهة الأمامية
-Backend API: http://localhost:8000/docs | واجهة برمجة التطبيقات الخلفية
-
+Frontend → [http://localhost:3000](http://localhost:3000)
+Backend API → [http://localhost:8000/docs](http://localhost:8000/docs)
 
 ---
 
-🧪 Option 2: Manual Setup | الخيار 2: الإعداد اليدوي
+## 🧪 Option 2: Manual Setup
 
-Prerequisites | المتطلبات
+### Backend
 
-Python 3.10+ | بايثون 3.10+
-
-Node.js 18+ | Node.js 18+
-
-PostgreSQL 14+ | PostgreSQL 14+
-
-Redis (optional) | Redis (اختياري)
-
-
-Backend Setup | إعداد الواجهة الخلفية
-
+```bash
 cd backend
 python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 uvicorn main:app --reload
+```
 
-Frontend Setup | إعداد الواجهة الأمامية
+### Frontend
 
+```bash
 cd frontend
 npm install
 npm run dev
-
-
----
-
-🧬 Database Setup | إعداد قاعدة البيانات
-
-Create PostgreSQL DB with pgvector extension | إنشاء قاعدة بيانات PostgreSQL مع امتداد pgvector
-
-Run SQL files in /sql/ to seed test data | تشغيل ملفات SQL في /sql/ لإدخال بيانات اختبارية
-
-
+```
 
 ---
 
-✅ Test Accounts | حسابات اختبار
+## 🧬 Database Setup
 
-Admin: admin@rivalscan.io / admin123 | مسؤول
-
-Analyst: analyst@rivalscan.io / analyst123 | محلل
-
-
+* Create PostgreSQL DB with pgvector extension
+* Run SQL files in `/sql/`
 
 ---
 
-🧯 Troubleshooting | استكشاف الأخطاء
+## ✅ Test Accounts
 
-Check .env variables | تحقق من متغيرات .env
-
-Ensure ports 3000 and 8000 are free | تأكد أن المنافذ 3000 و 8000 غير مستخدمة
-
-Use docker-compose logs for debugging | استخدم docker-compose logs للتصحيح
-
+Admin: `admin@rivalscan.io / admin123`
+Analyst: `analyst@rivalscan.io / analyst123`
 
 ---
+
+## 🧯 Troubleshooting
+
+* Verify `.env`
+* Ensure ports 3000/8000 are not used
+* Use `docker-compose logs` for debugging
+
+```
+
 
