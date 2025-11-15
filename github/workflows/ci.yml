@@ -1,0 +1,41 @@
+# .github/workflows/ci.yml
+name: Security & Quality Checks | فحوصات الأمن والجودة
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install Dependencies
+        run: pip install -r backend/requirements.txt
+        
+      - name: Install Security Tools (Bandit & Safety)
+        run: pip install bandit safety
+
+      # 1. Dependency Vulnerability Scan
+      - name: Run Safety Check (Vulnerable Libraries)
+        run: safety check -r backend/requirements.txt
+        
+      # 2. Static Code Analysis for common security issues
+      - name: Run Bandit Scan (Code Flaws)
+        # Bandit analyzes the Python code for common security vulnerabilities (e.g., SQL Injection, Hardcoded Secrets)
+        run: bandit -r backend/app -x backend/app/tests --exclude backend/app/db/database.py --severity-level M --confidence-level M 
+        
+      # 3. Simple Test (ensure the code runs)
+      - name: Run Unit Tests
+        # Placeholder: Replace with your actual pytest command once tests are written
+        run: echo "Running placeholder unit tests..."
