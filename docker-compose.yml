@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  # 1. PostgreSQL Database Service
+  db:
+    image: postgres:15-alpine # Use a lightweight, security-focused base image
+    container_name: rivalscan_db
+    restart: always
+    environment:
+      # Use the same variables defined in .env.example
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+      # NOTE: You will need a custom image with pgvector extension or run an init script.
+      # For now, we use a standard image.
+
+  # 2. FastAPI Backend Service
+  backend:
+    build:
+      context: ./backend # Tells Docker where the Dockerfile is located
+      dockerfile: Dockerfile
+    container_name: rivalscan_backend
+    restart: always
+    env_file:
+      - .env # Loads environment variables from the actual .env file
+    volumes:
+      - ./backend/app:/app/app # Live-reload for development (optional, but useful)
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db # Ensures the database starts before the backend
+
+  # 3. React Frontend Service (assuming standard Node setup)
+  frontend:
+    # We will assume a simple build for now. This needs a separate Dockerfile inside frontend/
+    # If not using a Dockerfile, you can run it manually with NPM.
+    # For a full Dockerized solution, you need a frontend/Dockerfile.
+    image: node:18-alpine # Example image for React development
+    container_name: rivalscan_frontend
+    restart: always
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules # Important to avoid conflicts with host machine node_modules
+    ports:
+      - "3000:3000"
+    command: npm run dev # Assuming your package.json has a 'dev' script
+
+# 4. Docker Volumes
+volumes:
+  postgres_data:
