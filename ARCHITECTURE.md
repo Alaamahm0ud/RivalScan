@@ -1,7 +1,5 @@
 
 
-# ✅ **ARCHITECTURE.md — النسخة النهائية الجاهزة للرفع**
-
 ````markdown
 # 🧱 RivalScan Architecture
 RivalScan is a modular, scalable platform for cyber-aware business analytics.
