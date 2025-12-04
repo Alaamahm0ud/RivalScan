@@ -1,6 +1,4 @@
-```
-# .github/workflows/ci.yml
-name: Security & Quality Checks | فحوصات الأمن والجودة
+name: Security & Quality Checks
 
 on:
   push:
@@ -13,14 +11,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Python 3.11
-        uses: actions/setup-python@v4
+      - uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
-          cache: 'pip'
+          python-version: "3.11"
+          cache: "pip"
 
       - name: Install Dependencies
         run: pip install -r backend/requirements.txt
@@ -28,164 +24,14 @@ jobs:
       - name: Install Security Tools
         run: pip install bandit safety trufflehog
 
-      - name: Run Safety (Dependency Vulnerabilities)
+      - name: Dependency Vulnerability Scan (Safety)
         run: safety check -r backend/requirements.txt
 
-      - name: Run Bandit (Static Security Scan)
+      - name: Static Security Scan (Bandit)
         run: bandit -r backend/app -x backend/app/tests --severity-level medium --confidence-level medium
 
-      - name: Run Secret Leak Scan (TruffleHog)
+      - name: Secret Leak Scan (TruffleHog)
         run: trufflehog filesystem --entropy=False .
 
       - name: Run Unit Tests
         run: pytest --maxfail=1 --disable-warnings
-```
-
-```
-# .github/workflows/pr.yml
-name: Pull Request Validation | فحص طلبات الدمج
-
-on:
-  pull_request:
-    branches: [ "main" ]
-
-jobs:
-  pr_check:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v4
-
-      - name: Setup Python 3.11
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.11"
-
-      - name: Install Dependencies
-        run: pip install -r backend/requirements.txt
-
-      - name: Run Linting
-        run: |
-          pip install black isort flake8
-          black --check .
-          isort --check-only .
-          flake8 .
-
-      - name: Run Tests
-        run: pytest --maxfail=1 --disable-warnings
-
-      - name: Verify Branch Naming
-        run: |
-          branch="${{ github.head_ref }}"
-          if [[ ! "$branch" =~ ^(feature|fix|docs|sec)\/.+ ]]; then
-              echo "❌ Branch name violates naming rules"
-              exit 1
-          fi
-```
-
-```
-# .github/SECURITY.md
-# Security Policy
-
-## 🛡 Scope
-Defensive & legal cybersecurity only.
-
-## 🔍 Reporting
-For any exposure:
-📩 csg4team@proton.me
-
-No leaks in Issues/PRs.
-
-## 🛑 Forbidden
-- Offensive exploitation
-- Selling collected datasets
-- Raw user logs
-- Illegal surveillance
-
-## ⛔ Zero Disclosure
-If you discover:
-- leaked credential
-- unencrypted export
-- RCE vector
-→ stop, report privately.
-```
-
-```
-# .github/CODEOWNERS
-* @alaat9080-svg
-.github/ @alaat9080-svg
-backend/ @alaat9080-svg
-frontend/ @alaat9080-svg
-```
-
-```
-# .github/PULL_REQUEST_TEMPLATE.md
-## Summary
-Describe feature or fix.
-
-## Checklist
-- [ ] No secrets
-- [ ] Tests passed
-- [ ] Linting passed
-- [ ] Security scan passed
-
-## Tests
-List added tests.
-```
-
-```
-# .github/ISSUE_TEMPLATE/bug_report.md
-name: Bug Report
-about: Report reproducible bug
-
----
-
-### Bug
-Describe clearly.
-
-### Steps
-1.
-2.
-3.
-
-### Expected vs Actual
-
-### Security Impact
-- [ ] none
-- [ ] exploit path
-- [ ] data risk
-```
-
-```
-# .github/ISSUE_TEMPLATE/feature_request.md
-name: Feature Request
-about: Request enhancement
-
----
-
-### Feature
-Describe.
-
-### Path
-Outline.
-
-### Security
-- [ ] needs validation
-- [ ] impacts export
-```
-
-```
-# .github/README_SECURITY_AUDIT.md
-# CI Guards
-
-### Enforced Scans
-- Safety
-- Bandit
-- TruffleHog
-
-### Merge Rules
-- no leaked keys
-- no raw exports
-- validation intact
-```
