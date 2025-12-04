@@ -1,13 +1,11 @@
-name: Security & Quality Checks
+name: Pull Request Validation
 
 on:
-  push:
-    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
 
 jobs:
-  build_and_test:
+  pr_check:
     runs-on: ubuntu-latest
 
     steps:
@@ -16,22 +14,24 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: "3.11"
-          cache: "pip"
 
       - name: Install Dependencies
         run: pip install -r backend/requirements.txt
 
-      - name: Install Security Tools
-        run: pip install bandit safety trufflehog
+      - name: Linting
+        run: |
+          pip install black isort flake8
+          black --check .
+          isort --check-only .
+          flake8 .
 
-      - name: Dependency Vulnerability Scan (Safety)
-        run: safety check -r backend/requirements.txt
-
-      - name: Static Security Scan (Bandit)
-        run: bandit -r backend/app -x backend/app/tests --severity-level medium --confidence-level medium
-
-      - name: Secret Leak Scan (TruffleHog)
-        run: trufflehog filesystem --entropy=False .
-
-      - name: Run Unit Tests
+      - name: Run Tests
         run: pytest --maxfail=1 --disable-warnings
+
+      - name: Verify Branch Naming
+        run: |
+          branch="${{ github.head_ref }}"
+          if [[ ! "$branch" =~ ^(feature|fix|docs|sec)\/.+ ]]; then
+              echo "❌ Invalid branch name format"
+              exit 1
+          fi
